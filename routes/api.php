@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Person\DeleteController;
+use App\Http\Controllers\Person\UpdateController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Person\StoreController;
@@ -23,4 +25,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::group([ 'prefix'=>'people'], function () {
     Route::post('/', \App\Http\Controllers\Person\StoreController::class);
     Route::get('/', IndexController::class);
+    Route::patch('/{person}', UpdateController::class);
+    Route::delete('/{person}', DeleteController::class);
 });

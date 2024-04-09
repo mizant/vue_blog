@@ -3,9 +3,9 @@
 </script>
 
 <template>
-<div>
-    Single Post
-</div>
+    <div>
+        Show
+    </div>
 </template>
 
 <style scoped>
