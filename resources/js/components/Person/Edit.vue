@@ -1,7 +1,6 @@
 <script>
 
 import axios from "axios";
-import router from "@/router.js";
 
 export default {
     name: "Edit",
@@ -20,19 +19,25 @@ export default {
 
     methods: {
        getPerson() {
-           axios.get('/api/people/' + this.$route.params.id)
+           axios.get(`/api/people/${this.$route.params.id}`)
                .then(res=> {
-                   this.name = res.data.name;
-                   this.age = res.data.age;
-                   this.job = res.data.job;
+                   this.name = res.data.data.name;
+                   this.age = res.data.data.age;
+                   this.job = res.data.data.job;
                    console.log(res)
                })
        },
         update() {
-           axios.patch('/api/people/' + this.$route.params.id, {name: this.name, age: this.age, job: this.job})
+           axios.patch(`/api/people/${this.$route.params.id}`, {name: this.name, age: this.age, job: this.job})
                .then(res => {
-               router.push({name: 'person.show', params: {id: this.$route.params.id}});
+               this.$router.push({name: 'person.show', params: {id: this.$route.params.id}});
             })
+        }
+    },
+
+    computed: {
+        isDisabled() {
+            return this.name && this.age && this.job;
         }
     }
 }
@@ -54,7 +59,7 @@ export default {
         </div>
 
         <div class="mb-3">
-            <input @click.prevent="update"  type="submit" value="Update" class="btn btn-primary">
+            <input :disabled="!isDisabled" @click.prevent="update"  type="submit" value="Update" class="btn btn-primary">
         </div>
     </div>
 </template>
