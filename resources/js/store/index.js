@@ -1,7 +1,10 @@
-import { useStore } from 'vuex'
+import { createStore } from 'vuex'
+import personModule from './modules/person'
 
-export default {
-    setup () {
-        const store = useStore()
+const store = createStore({
+    modules: {
+        person: personModule,
     }
-}
+})
+
+export default store

@@ -5,28 +5,13 @@ import axios from "axios";
 export default {
     name: "Index",
 
-    data() {
-        return {
-            people: null
-        }
-    },
-
     mounted() {
-        this.getPeople();
+        this.$store.dispatch('getPeople');
     },
 
-    methods: {
-        getPeople() {
-            axios.get("/api/people").then((response) => {
-                this.people = response.data.data;
-            })
-        },
-
-        deletePerson(id) {
-            axios.delete(`/api/people/${id}`)
-                .then(res => {
-                    this.getPeople();
-                })
+    computed: {
+        people() {
+            return this.$store.getters.people;
         }
     }
 }
@@ -46,7 +31,7 @@ export default {
             </tr>
             </thead>
             <tbody>
-            <tr v-for="person in people">
+            <tr v-for="person in people" class="mb-3">
                 <td>
                     <router-link :to="{name: 'person.show', params: {id: person.id}}">{{ person.name }}</router-link>
                 </td>
@@ -55,7 +40,7 @@ export default {
                 <td>
                     <router-link :to="{ name: 'person.edit', params: { id: person.id } }">Edit</router-link>
                 </td>
-                <a @click.prevent="deletePerson(person.id)" href="#" class="btn btn-outline-danger">Delete</a>
+                <a @click.prevent="$store.dispatch('deletePerson',person.id)" href="#" class="btn btn-outline-danger mb-2">Delete</a>
             </tr>
             </tbody>
         </table>
